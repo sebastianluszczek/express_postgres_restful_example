@@ -1,33 +1,30 @@
-const db = require("../models");
-const User = db.users;
-
-exports.createUser = async payload => {
+exports.createUser = async (model, payload) => {
   try {
-    return await User.create(payload);
+    return await model.create(payload);
   } catch (error) {
     throw error;
   }
 };
 
-exports.findAllUsers = async () => {
+exports.findAllUsers = async model => {
   try {
-    return await User.findAll();
+    return await model.findAll();
   } catch (error) {
     throw error;
   }
 };
 
-exports.findOneUser = async id => {
+exports.findOneUser = async (model, id) => {
   try {
-    return await User.findByPk(id);
+    return await model.findByPk(id);
   } catch (error) {
     throw error;
   }
 };
 
-exports.deleteOneUser = async id => {
+exports.deleteOneUser = async (model, id) => {
   try {
-    return await User.destroy({ where: { id } });
+    return await model.destroy({ where: { id } });
   } catch (error) {
     throw error;
   }

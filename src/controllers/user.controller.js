@@ -7,6 +7,9 @@ const {
 const { ErrorHandler } = require("../helpers/error.helper");
 const { userValidator } = require("../helpers/validation.helper");
 
+const db = require("../models");
+const User = db.users;
+
 // Create and Save a new User
 exports.create = async (req, res, next) => {
   try {
@@ -21,7 +24,7 @@ exports.create = async (req, res, next) => {
       lastName,
       email,
     };
-    const response = await createUser(newUser);
+    const response = await createUser(User, newUser);
     res.status(201).json({
       data: response,
     });
@@ -33,7 +36,7 @@ exports.create = async (req, res, next) => {
 // Retrieve all Users from the database.
 exports.findAll = async (req, res, next) => {
   try {
-    const response = await findAllUsers();
+    const response = await findAllUsers(User);
     res.json({ data: response });
   } catch (err) {
     next(err);
@@ -45,7 +48,7 @@ exports.findOne = async (req, res, next) => {
   const id = req.params.id;
 
   try {
-    const response = await findOneUser(id);
+    const response = await findOneUser(User, id);
     if (!response) {
       throw new ErrorHandler(404, `Issue ${id} not found`);
     }
@@ -60,10 +63,10 @@ exports.deleteOne = async (req, res, next) => {
   const id = req.params.id;
 
   try {
-    const findRes = await findOneUser(id);
+    const findRes = await findOneUser(User, id);
     if (!findRes) throw new ErrorHandler(404, `User: ${id} not found`);
 
-    const deleteRes = await deleteOneUser(id);
+    const deleteRes = await deleteOneUser(User, id);
     if (deleteRes !== 1) {
       throw new ErrorHandler(400, `Cannot delete User ${id}`);
     }

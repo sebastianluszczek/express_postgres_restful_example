@@ -13,7 +13,7 @@ describe("User service unit tests", () => {
     await db.sequelize.sync({ force: true });
   });
   afterEach(async () => {
-    User.destroy({
+    await User.destroy({
       where: {},
       truncate: true,
     });
@@ -32,7 +32,7 @@ describe("User service unit tests", () => {
         email: "mymail@mail.com",
       };
 
-      response = await createUser(userInput);
+      response = await createUser(User, userInput);
     });
     it("Should create new User", async () => {
       expect(response).toBeDefined();
@@ -48,10 +48,10 @@ describe("User service unit tests", () => {
         email: "mymail@mail.com",
       };
 
-      await createUser(userInput);
-      await createUser(userInput);
+      await createUser(User, userInput);
+      await createUser(User, userInput);
 
-      response = await findAllUsers();
+      response = await findAllUsers(User);
     });
     it("Should get response", () => {
       expect(response).toBeDefined();
@@ -72,9 +72,9 @@ describe("User service unit tests", () => {
         email: "mymail@mail.com",
       };
 
-      await createUser(userInput);
+      await createUser(User, userInput);
 
-      response = await findOneUser(1);
+      response = await findOneUser(User, 1);
     });
     it("Should get response", () => {
       expect(response).toBeDefined();
@@ -90,8 +90,8 @@ describe("User service unit tests", () => {
         lastName: "UserSurname",
         email: "mymail@mail.com",
       };
-      const createResp = await createUser(userInput);
-      const response = await deleteOneUser(createResp.id);
+      const createResp = await createUser(User, userInput);
+      const response = await deleteOneUser(User, createResp.id);
 
       expect(response).toBe(1);
     });
