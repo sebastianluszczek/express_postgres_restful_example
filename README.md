@@ -1,7 +1,10 @@
 # graphql_express_mongo_example
 
-> Example project where i use _Node.JS_, _Express_, _express-graphql_ for server development. _MongoDB_ as development database with help of _Mongoose_ ORM. For rapid development was used _Docker_ with _compose_. It allow to remove all installed locally dependencies like local MongoDB, etc.
-> Project mainly focused on the most reusable and scalable project structure of GraphQL server.
+> Example project of restful service build in _Express.JS_, with associated _Postgres_ database and _Sequelize_ ORM.
+
+> Project is mainly focused on creating reusable and stabile project folder structure, with separation of concerns, scalability and testability.
+
+> Unit test made in _Jest_. For easier rapid development _Docker_ with _docker-compose_ was used. It allow to remove all local dependencies like, locally instaled database, etc.
 
 ---
 
@@ -22,10 +25,10 @@
 
 ```bash
 # clone repo
-git clone https://github.com/sebastianluszczek/graphql_express_mongo_example.git
+git clone https://github.com/sebastianluszczek/express_postgres_restful_example.git
 
 # move directory
-cd graphql_express_mongo_example
+cd express_postgres_restful_example
 
 # run docker compose
 docker-compose up --build #--build only for first time run

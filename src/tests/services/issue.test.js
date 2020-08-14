@@ -1,19 +1,19 @@
 const {
-  createIssue,
-  findAllIssues,
-  findOneIssue,
-  deleteOneIssue,
-} = require("../../services/issue.service");
+  createUser,
+  findAllUsers,
+  findOneUser,
+  deleteOneUser,
+} = require("../../services/user.service");
 const db = require("../../models");
-const Issues = db.issues;
+const User = db.users;
 
-describe("Issue service unit tests", () => {
+describe("User service unit tests", () => {
   // sync database, {force: true} will clear it before usage
   beforeEach(async () => {
     await db.sequelize.sync({ force: true });
   });
   afterEach(async () => {
-    Issues.destroy({
+    User.destroy({
       where: {},
       truncate: true,
     });
@@ -23,36 +23,35 @@ describe("Issue service unit tests", () => {
     await db.sequelize.close();
     done();
   });
-  describe("createIssue", () => {
+  describe("createUser", () => {
     let response;
     beforeAll(async () => {
-      const issueInput = {
-        title: "Test issue",
-        description: "Test issue description",
+      const userInput = {
+        firstName: "UserName",
+        lastName: "UserSurname",
+        email: "mymail@mail.com",
       };
 
-      response = await createIssue(Issues, issueInput);
+      response = await createUser(userInput);
     });
-    it("Should create new issue", async () => {
+    it("Should create new User", async () => {
       expect(response).toBeDefined();
       expect(response.id).toBeDefined();
     });
-    it("Should create new issue with 'state':'open'", async () => {
-      expect(response.state).toBe("open");
-    });
   });
-  describe("findAllIssues", () => {
+  describe("findAllUsers", () => {
     let response;
     beforeAll(async () => {
-      const issueInput = {
-        title: "Test issue",
-        description: "Test issue description",
+      const userInput = {
+        firstName: "UserName",
+        lastName: "UserSurname",
+        email: "mymail@mail.com",
       };
 
-      await createIssue(Issues, issueInput);
-      await createIssue(Issues, issueInput);
+      await createUser(userInput);
+      await createUser(userInput);
 
-      response = await findAllIssues(Issues);
+      response = await findAllUsers();
     });
     it("Should get response", () => {
       expect(response).toBeDefined();
@@ -60,23 +59,22 @@ describe("Issue service unit tests", () => {
     it("Should return array", () => {
       expect(Array.isArray(response)).toBe(true);
     });
-    it("Should get all (2) issues", () => {
+    it("Should get all (2) users", () => {
       expect(response.length).toBe(2);
     });
   });
-  describe("findOneIssues", () => {
+  describe("findOneUser", () => {
     let response;
     beforeAll(async () => {
-      const issueInput = {
-        title: "Test issue",
-        description: "Test issue description",
+      const userInput = {
+        firstName: "UserName",
+        lastName: "UserSurname",
+        email: "mymail@mail.com",
       };
 
-      await createIssue(Issues, issueInput);
-      await createIssue(Issues, issueInput);
+      await createUser(userInput);
 
-      response = await findOneIssue(Issues, 1);
-      console.log(response);
+      response = await findOneUser(1);
     });
     it("Should get response", () => {
       expect(response).toBeDefined();
@@ -85,14 +83,15 @@ describe("Issue service unit tests", () => {
       expect(response.id).toBe(1);
     });
   });
-  describe("deleteOneIssue", () => {
-    it("Should delete issue", async () => {
-      const issueInput = {
-        title: "Test issue",
-        description: "Test issue description",
+  describe("deleteOneUser", () => {
+    it("Should delete User", async () => {
+      const userInput = {
+        firstName: "UserName",
+        lastName: "UserSurname",
+        email: "mymail@mail.com",
       };
-      const createResp = await createIssue(Issues, issueInput);
-      const response = await deleteOneIssue(Issues, createResp.id);
+      const createResp = await createUser(userInput);
+      const response = await deleteOneUser(createResp.id);
 
       expect(response).toBe(1);
     });
